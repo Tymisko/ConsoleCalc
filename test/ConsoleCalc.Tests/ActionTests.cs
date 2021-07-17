@@ -5,36 +5,42 @@ namespace ConsoleCalc.Tests
 {
     public class AdditionTests
     {
+        // Arrange
+        List<double> integerNumbers = new List<double>(){6,3,2};
+        List<double> floatNumbers = new List<double>(){4, 3.25, 0.25, 0};
         [Fact]
         public void AdditionTest()
         {
-            // arrange
-            List<double> numbers = new List<double>() {1,2,3};
-            List<double> floatingNumbers = new List<double>() {1.25, 2.25, 0.50};
-
             // act
-            var sum = Actions.Sum(numbers);
-            var floatingNumbersSum = Actions.Sum(floatingNumbers);
+            var integerNumbersSum = Actions.Sum(integerNumbers);
+            var floatNumbersSum = Actions.Sum(floatNumbers);
 
             // assert
-            Assert.Equal(6, sum);
-            Assert.Equal(4, floatingNumbersSum);
+            Assert.Equal(11, integerNumbersSum);
+            Assert.Equal(7.5, floatNumbersSum);
         }
 
         [Fact]
         public void SubtractionTest()
         {
-            // arrange
-            List<double> numbers = new List<double>(){6,3,2};
-            List<double> nums = new List<double>(){4, 3.25, 0.25};
-        
             // act
-            var numbersDifference = Actions.Difference(numbers);
-            var numsDifference = Actions.Difference(nums);
+            var integerNumbersDifference = Actions.Difference(integerNumbers);
+            var floatNumbersDifference = Actions.Difference(floatNumbers);
+            // assert
+            Assert.Equal(1, integerNumbersDifference);
+            Assert.Equal(0.5, floatNumbersDifference);
+        }
+
+        [Fact]
+        public void MultiplicationTest()
+        {
+            // act
+            var integerNumbersProduct = Actions.Product(integerNumbers);
+            var floatNumbersProduct = Actions.Product(floatNumbers);
 
             // assert
-            Assert.Equal(1, numbersDifference);
-            Assert.Equal(0.5, numsDifference);
+            Assert.Equal(36, integerNumbersProduct);
+            Assert.Equal(0, floatNumbersProduct);
         }
 
     }

@@ -25,9 +25,20 @@ namespace ConsoleCalc
                 }
                 return difference;
             } 
-        // public static double Product(List<double> numbers)
-        // {
-        //     double multiplication;
-        // }
+        public static double Product(List<double> numbers)
+        {
+            double multiplication = 1;
+            foreach(var number in numbers)
+            {
+                if(number == 0)
+                {
+                    return 0;
+                }
+                else {                    
+                    multiplication *= number;
+                }
+            }
+            return multiplication;
+        }
     }
 }
