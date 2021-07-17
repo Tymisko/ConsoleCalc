@@ -3,7 +3,7 @@ using Xunit;
 
 namespace ConsoleCalc.Tests
 {
-    public class AdditionTests
+    public class ActionTests
     {
         // Arrange
         List<double> integerNumbers = new List<double>(){6,3,2};
@@ -12,8 +12,8 @@ namespace ConsoleCalc.Tests
         public void AdditionTest()
         {
             // act
-            var integerNumbersSum = Actions.Sum(integerNumbers);
-            var floatNumbersSum = Actions.Sum(floatNumbers);
+            var integerNumbersSum = Actions.Add(integerNumbers);
+            var floatNumbersSum = Actions.Add(floatNumbers);
 
             // assert
             Assert.Equal(11, integerNumbersSum);
@@ -24,8 +24,8 @@ namespace ConsoleCalc.Tests
         public void SubtractionTest()
         {
             // act
-            var integerNumbersDifference = Actions.Difference(integerNumbers);
-            var floatNumbersDifference = Actions.Difference(floatNumbers);
+            var integerNumbersDifference = Actions.Subtract(integerNumbers);
+            var floatNumbersDifference = Actions.Subtract(floatNumbers);
             // assert
             Assert.Equal(1, integerNumbersDifference);
             Assert.Equal(0.5, floatNumbersDifference);
@@ -35,13 +35,24 @@ namespace ConsoleCalc.Tests
         public void MultiplicationTest()
         {
             // act
-            var integerNumbersProduct = Actions.Product(integerNumbers);
-            var floatNumbersProduct = Actions.Product(floatNumbers);
+            var integerNumbersProduct = Actions.Multiply(integerNumbers);
+            var floatNumbersProduct = Actions.Multiply(floatNumbers);
 
             // assert
             Assert.Equal(36, integerNumbersProduct);
             Assert.Equal(0, floatNumbersProduct);
         }
 
+        [Fact]
+        public void DivisionTest()
+        {
+            // act
+            var integerNumbersQuotient = Actions.Divide(integerNumbers);
+            var floatNumbersQuotient = Actions.Divide(floatNumbers);
+
+            // assert
+            Assert.Equal(1, integerNumbersQuotient);
+            // Assert.Equal(4.923076923, integerNumbersQuotient);
+        }
     }
 }
