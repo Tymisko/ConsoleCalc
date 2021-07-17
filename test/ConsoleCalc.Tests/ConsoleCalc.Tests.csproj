@@ -22,5 +22,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ConsoleCalc\ConsoleCalc.csproj" />
   </ItemGroup>
-
 </Project>
