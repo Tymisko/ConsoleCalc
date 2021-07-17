@@ -6,12 +6,12 @@ ConsoleCalc is a console application that doing calculations.
 
 1. Download repository
 1. Extract it.
-1. Copy **ConsoleCalc.exe** from *src/ConsoleCalc/bin/* to whetever you want
+1. Copy **ConsoleCalc.exe** from *src/ConsoleCalc/bin/* to specified location
 1. Run it to start program.
 
 ## Usage
 
-Type in what you want to calculate and then press enter.
+Type in math operation to calculate then press enter to get result.
 
 
 
