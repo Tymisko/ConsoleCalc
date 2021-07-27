@@ -7,8 +7,6 @@ namespace ConsoleCalc
     {
         static void Main(string[] args)
         {
-            List<double> numbers = new List<double>(){1,2,3};
-            Actions.Divide(numbers);
         }
     }
 }
