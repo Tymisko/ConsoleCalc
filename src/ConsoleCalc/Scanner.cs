@@ -1,32 +1,113 @@
-// Takes in a raw source as a series of characters and groups it into a series of chunks called tokens.
-
+// TODO: sqrt, power etc.
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("ConsoleCalc.Tests")] // allows internal class to being tested.
 
 namespace ConsoleCalc
 {
-    class Scanner
+    internal class Scanner
     {
         string source;
-        List<Token> tokens = new List<Token>();
-        int start = 0;
-        int current = 0;
-        int index = 1;
+        internal List<Token> tokens = new List<Token>();
+        private int start = 0;
+        private int current = 0;
 
-        Scanner(string source)
+        internal Scanner(string source)
         {
             this.source = source;
         }
 
-        List<Token> scanTokens()
+        internal List<Token> scanTokens()
         {
             while(!isAtEnd())
             {
+                // Beginning of the next lexeme
                 start = current;
-                scanTokens();
+                scanToken();
             }
 
-            tokens.Add(new Token(Token.TokenType.EOF, "", null, index));
+            tokens.Add(new Token(Token.TokenType.EOF, "", null));
             return tokens;
+        }
+
+        private void scanToken()
+        {
+            char c = advance();
+            switch(c)
+            {
+                case '(': addToken(Token.TokenType.LEFT_PAREN); break;
+                case ')': addToken(Token.TokenType.RIGHT_PAREN); break;
+
+                case '{': addToken(Token.TokenType.LEFT_BRACE); break;
+                case '}': addToken(Token.TokenType.RIGHT_BRACE); break;
+
+                case '*': addToken(Token.TokenType.STAR); break;
+                case '/': addToken(Token.TokenType.SLASH); break;
+
+                case '+': addToken(Token.TokenType.PLUS); break;
+                case '-': addToken(Token.TokenType.MINUS); break;
+
+                default:
+                    if(isDigit(c))
+                    {
+                        number();
+                    }
+                    else 
+                    {
+                        TextWriter errorWriter = Console.Error;
+                        errorWriter.WriteLine("Unexpected character.");
+                    }
+                    break;
+            }            
+        }
+
+        private void number()
+        {
+            while(isDigit(peek())) advance();
+
+            // Look for fractional part.
+            if (peek() == '.' && isDigit(peekNext()))
+            {
+                // Consume the "."
+                advance();
+
+                while(isDigit(peek())) advance();
+            }
+
+            addToken(Token.TokenType.NUMBER, Convert.ToDouble(source.Substring(start, current-start)));
+        }
+
+        private bool isDigit(char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+
+        private void addToken(Token.TokenType type, object literal = null)
+        {
+            // Grabs text of the current lexeme and creates a new token for it.
+            string text = source.Substring(start, current-start);
+            tokens.Add(new Token(type, text, literal));
+        }
+
+        private char advance() 
+        {
+            // consumes the next character in the source and returns it.
+            return source[current++];
+        }
+        private char peek()
+        {
+            // It lookahead.
+            if (isAtEnd()) return '\0';
+            return source[current];
+        }
+        private char peekNext()
+        {
+            // It look 2 characters ahead.
+            if(current++ >= source.Length) return '\0';
+            return source[current++];
         }
         private bool isAtEnd()
         {
