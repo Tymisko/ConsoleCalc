@@ -29,7 +29,7 @@ namespace ConsoleCalc
                 scanToken();
             }
 
-            tokens.Add(new Token(Token.TokenType.EOF, "", null));
+            tokens.Add(new Token(Token.TokenType.EOF, 0));
             return tokens;
         }
 
@@ -85,11 +85,10 @@ namespace ConsoleCalc
             return c >= '0' && c <= '9';
         }
 
-        private void addToken(Token.TokenType type, object literal = null)
+        private void addToken(Token.TokenType type, double value = 0)
         {
             // Grabs text of the current lexeme and creates a new token for it.
-            string text = source.Substring(start, current-start);
-            tokens.Add(new Token(type, text, literal));
+            tokens.Add(new Token(type, value));
         }
 
         private char advance() 

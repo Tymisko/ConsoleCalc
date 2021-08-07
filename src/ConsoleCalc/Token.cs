@@ -6,11 +6,10 @@ namespace ConsoleCalc
 {
     public class Token
     {
-        public Token(TokenType type, string lexeme, object literal)
+        public Token(TokenType type, double value)
         {
             this.type = type;       
-            this.lexeme = lexeme;   
-            this.literal = literal;   
+            this.value = value;
         }
 
         public enum TokenType
@@ -24,12 +23,11 @@ namespace ConsoleCalc
         }
 
         internal TokenType type; // type of token
-        internal string lexeme;  // token's value
-        internal object literal; // token's literal value
+        internal double value; // value of token
         
         public override string ToString()
         {
-            return $"{type} {lexeme} {literal}";
+            return $"{type} {value}";
         }
     }
 }
