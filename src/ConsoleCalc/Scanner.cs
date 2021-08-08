@@ -45,10 +45,12 @@ namespace ConsoleCalc
                 case '}': addToken(Token.TokenType.RIGHT_BRACE); break;
 
                 case '*': addToken(Token.TokenType.STAR); break;
-                case '/': addToken(Token.TokenType.SLASH); break;
+                case '/': case ':': addToken(Token.TokenType.SLASH); break;
 
                 case '+': addToken(Token.TokenType.PLUS); break;
                 case '-': addToken(Token.TokenType.MINUS); break;
+                
+                case ' ': addToken(Token.TokenType.WHITESPACE); break;
 
                 default:
                     if(isDigit(c))
@@ -57,8 +59,7 @@ namespace ConsoleCalc
                     }
                     else 
                     {
-                        TextWriter errorWriter = Console.Error;
-                        errorWriter.WriteLine("Unexpected character.");
+                        throw new ArgumentException();
                     }
                     break;
             }            
@@ -105,8 +106,8 @@ namespace ConsoleCalc
         private char peekNext()
         {
             // It look 2 characters ahead.
-            if(current++ >= source.Length) return '\0';
-            return source[current++];
+            if((current+1) >= source.Length) return '\0';
+            return source[current+1];
         }
         private bool isAtEnd()
         {

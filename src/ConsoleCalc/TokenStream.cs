@@ -22,10 +22,6 @@ namespace ConsoleCalc
                 full = false;
                 return buffer;
             }
-            if(tokens[current].type == Token.TokenType.EOF)
-            {
-                // koniec
-            }
             return tokens[current++];
         }
         public void putback(Token currentToken) // put token back to stream

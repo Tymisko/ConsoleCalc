@@ -19,10 +19,7 @@ namespace ConsoleCalc
         double expression()
         {
             double left = term();
-            if(lastToken)
-            {
-                return left;
-            }
+            if(lastToken) return left;
             Token currentToken = ts.get();
             while(true)
             {
@@ -45,9 +42,7 @@ namespace ConsoleCalc
         double term()
         {
             double left = primary();
-            if(lastToken) {
-                return left;
-            }
+            if(lastToken) return left;
             Token currentToken = ts.get();
             while(true)
             {
@@ -60,7 +55,7 @@ namespace ConsoleCalc
                     case Token.TokenType.SLASH:
                     {
                         double d = primary();
-                        if(d == 0) throw new DivideByZeroException($"Divided by zero");
+                        if(d == 0) throw new DivideByZeroException();
                         left /= d;
                         currentToken = ts.get();
                         break;
@@ -85,6 +80,8 @@ namespace ConsoleCalc
                     }
                 case Token.TokenType.NUMBER:
                     return Convert.ToDouble(currentToken.value);
+                case Token.TokenType.WHITESPACE:
+                    return primary();
                 case Token.TokenType.EOF:
                     lastToken = true;
                     return 0;

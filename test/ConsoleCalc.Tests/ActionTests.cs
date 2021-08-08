@@ -1,58 +1,36 @@
-using System.Collections.Generic;
 using Xunit;
 
 namespace ConsoleCalc.Tests
 {
     public class ActionTests
     {
-        // Arrange
-        List<double> integerNumbers = new List<double>(){6,3,2};
-        List<double> floatNumbers = new List<double>(){4, 3.25, 0.25, 0};
         [Fact]
-        public void AdditionTest()
+        void action00()
         {
+            // arrange
+            Scanner scan = new Scanner("2+6:2*3");
+            Parser parsedScan = new Parser(scan.scanTokens());
             // act
-            var integerNumbersSum = Actions.Add(integerNumbers);
-            var floatNumbersSum = Actions.Add(floatNumbers);
-
             // assert
-            Assert.Equal(11, integerNumbersSum);
-            Assert.Equal(7.5, floatNumbersSum);
+            Assert.Equal(11, parsedScan.result);
         }
-
         [Fact]
-        public void SubtractionTest()
+        void action01()
         {
-            // act
-            var integerNumbersDifference = Actions.Subtract(integerNumbers);
-            var floatNumbersDifference = Actions.Subtract(floatNumbers);
+            // arrange
+            Scanner scan = new Scanner("7-2*0+5:5-2");
+            Parser parsedScan = new Parser(scan.scanTokens());
             // assert
-            Assert.Equal(1, integerNumbersDifference);
-            Assert.Equal(0.5, floatNumbersDifference);
+            Assert.Equal(6, parsedScan.result);
         }
-
         [Fact]
-        public void MultiplicationTest()
+        void action02()
         {
-            // act
-            var integerNumbersProduct = Actions.Multiply(integerNumbers);
-            var floatNumbersProduct = Actions.Multiply(floatNumbers);
-
+            // arrange
+            Scanner scan = new Scanner("2*(1+3)");
+            Parser parsedScan = new Parser(scan.scanTokens());
             // assert
-            Assert.Equal(36, integerNumbersProduct);
-            Assert.Equal(0, floatNumbersProduct);
-        }
-
-        [Fact]
-        public void DivisionTest()
-        {
-            // act
-            var integerNumbersQuotient = Actions.Divide(integerNumbers);
-            var floatNumbersQuotient = Actions.Divide(floatNumbers);
-
-            // assert
-            Assert.Equal(1, integerNumbersQuotient);
-            // Assert.Equal(4.923076923, integerNumbersQuotient);
+            Assert.Equal(8, parsedScan.result);
         }
     }
 }

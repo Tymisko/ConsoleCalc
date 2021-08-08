@@ -19,6 +19,7 @@ namespace ConsoleCalc
             STAR, SLASH,
             PLUS, MINUS,
             NUMBER,
+            WHITESPACE,
             EOF
         }
 
