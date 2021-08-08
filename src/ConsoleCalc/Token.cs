@@ -21,7 +21,7 @@ namespace ConsoleCalc
             PLUS, MINUS,
             NUMBER,
             WHITESPACE,
-            EOF
+            EQUAL, EOF
         }
 
         internal TokenType type; // type of token

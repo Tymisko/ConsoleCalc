@@ -51,6 +51,8 @@ namespace ConsoleCalc
 
                 case '+': addToken(Token.TokenType.PLUS); break;
                 case '-': addToken(Token.TokenType.MINUS); break;
+
+                case '=': addToken(Token.TokenType.EQUAL); break;
                 
                 case ' ': addToken(Token.TokenType.WHITESPACE); break;
 

@@ -10,8 +10,8 @@ namespace ConsoleCalc
         private static bool problem = false;
         public static void Start()
         {
-            System.Console.WriteLine("ConsoleCalc 1.0");
-            supportedFunctionsList();
+            System.Console.WriteLine("ConsoleCalc 1.05");
+            printInstructions();
             while(!problem) RunCalculator();
         }
         static void RunCalculator()
@@ -19,11 +19,12 @@ namespace ConsoleCalc
             while(!problem)
             {  
                 try
-                {                                    
+                {   
+                    System.Console.Write("Enter math operation: ");                       
                     string source = Console.ReadLine();
                     Scanner scan = new Scanner(source);
                     Parser parsedScan = new Parser(scan.scanTokens());
-                    Console.WriteLine($"={parsedScan.result}\n");
+                    Console.Write($"={parsedScan.result}\n\n");
                 }
                 catch(ArgumentException)
                 {
@@ -40,10 +41,10 @@ namespace ConsoleCalc
             }
             problem = false;
         }
-        static void supportedFunctionsList()
+        static void printInstructions()
         {
-            System.Console.WriteLine("Supported functions:");
-            System.Console.WriteLine("- Addition/Subtraction\n- Multiplication/Division\n- Actions in parentheses and braces\n- Raising to power\n");
+            System.Console.WriteLine("Supported actions:\n- Addition '+'\n- Subtraction '-'\n- Multiplication '*'\n- Division '/' or ':'\n- Raising to power '^'\n- Actions in parentheses and braces '('action')' or '{'action'}'");
+            System.Console.WriteLine("\nUsage: Enter mathematical operation and press enter.");
         }
     }
 }

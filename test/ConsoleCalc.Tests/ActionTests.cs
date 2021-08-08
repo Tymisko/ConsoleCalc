@@ -41,5 +41,23 @@ namespace ConsoleCalc.Tests
             // assert
             Assert.Equal(8, parsedScan.result);
         }
+        [Fact]
+        void action04()
+        {
+            // arrange
+            Scanner scan = new Scanner("-99+1");
+            Parser parsedScan = new Parser(scan.scanTokens());
+            // assert
+            Assert.Equal(-98, parsedScan.result); 
+        }
+        [Fact]
+        void action05()
+        {
+            // arrange
+            Scanner scan = new Scanner("(-99+1)*1=");
+            Parser parsedScan = new Parser(scan.scanTokens());
+            // assert
+            Assert.Equal(-98, parsedScan.result); 
+        }
     }
 }

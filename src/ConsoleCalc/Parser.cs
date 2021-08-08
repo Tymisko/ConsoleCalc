@@ -114,6 +114,10 @@ namespace ConsoleCalc
                     return Convert.ToDouble(currentToken.value);
                 case Token.TokenType.WHITESPACE:
                     return primary();
+                // Support actions where minus is first token
+                case Token.TokenType.MINUS:
+                    return primary()*-1;
+                case Token.TokenType.EQUAL:
                 case Token.TokenType.EOF:
                     lastToken = true;
                     return 0;
