@@ -48,6 +48,10 @@ namespace ConsoleCalc
             {
                 switch(currentToken.type)
                 {
+                    case Token.TokenType.CARET:
+                        left = Math.Pow(left, primary());
+                        currentToken = ts.get();
+                        break;
                     case Token.TokenType.STAR:
                         left *= primary();
                         currentToken = ts.get();
@@ -75,7 +79,23 @@ namespace ConsoleCalc
                     {
                         double d = expression();
                         currentToken = ts.get();
-                        if(currentToken.type != Token.TokenType.RIGHT_PAREN) errorWriter.WriteLine("')' was expected.");
+                        if(currentToken.type != Token.TokenType.RIGHT_PAREN)
+                        {
+                            errorWriter.WriteLine("')' was expected.");
+                            throw new ArgumentException();
+                        }
+                        return d;
+                    }
+                case Token.TokenType.LEFT_BRACE:
+                    {
+                        double d = expression();
+                        currentToken = ts.get();
+                        if(currentToken.type != Token.TokenType.RIGHT_BRACE)
+                        {
+                            errorWriter.WriteLine("'}' was expected.");
+                            throw new ArgumentException();
+                        }
+                            
                         return d;
                     }
                 case Token.TokenType.NUMBER:

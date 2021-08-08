@@ -43,7 +43,7 @@ namespace ConsoleCalc
         static void supportedFunctionsList()
         {
             System.Console.WriteLine("Supported functions:");
-            System.Console.WriteLine("- Addition/Subtraction\n- Multiplication/Division\n- Actions in parentheses\n");
+            System.Console.WriteLine("- Addition/Subtraction\n- Multiplication/Division\n- Actions in parentheses and braces\n- Raising to power\n");
         }
     }
 }

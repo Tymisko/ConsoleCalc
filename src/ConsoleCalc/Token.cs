@@ -16,6 +16,7 @@ namespace ConsoleCalc
         {
             LEFT_PAREN, RIGHT_PAREN,
             LEFT_BRACE, RIGHT_BRACE,
+            CARET,
             STAR, SLASH,
             PLUS, MINUS,
             NUMBER,

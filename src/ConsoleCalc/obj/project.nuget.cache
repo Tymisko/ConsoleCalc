@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "oqU2CXK6of85vyJdTLDGQ1KpkIipojV6cNv8v7mK7Tl0jr2PM+bRDEfBxteRhWdFqMI6LJt0z0h2vlFH22OlXQ==",
+  "dgSpecHash": "minN4Mp4kFH4m+rNJaaK5PHa2wsrmiK+aSmjlS67J3/zeMxO2xARikoLsQ9OcQvxh8dSfhgHSaQNc4HvxKi6RA==",
   "success": true,
   "projectFilePath": "H:\\Repositories\\consoleCalc\\src\\ConsoleCalc\\ConsoleCalc.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Janek\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.7\\microsoft.netcore.app.runtime.win-x64.5.0.7.nupkg.sha512",
+    "C:\\Users\\Janek\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.7\\microsoft.aspnetcore.app.runtime.win-x64.5.0.7.nupkg.sha512",
+    "C:\\Users\\Janek\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\5.0.7\\microsoft.windowsdesktop.app.runtime.win-x64.5.0.7.nupkg.sha512"
+  ],
   "logs": []
 }

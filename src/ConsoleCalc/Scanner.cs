@@ -44,6 +44,8 @@ namespace ConsoleCalc
                 case '{': addToken(Token.TokenType.LEFT_BRACE); break;
                 case '}': addToken(Token.TokenType.RIGHT_BRACE); break;
 
+                case '^': addToken(Token.TokenType.CARET); break;
+
                 case '*': addToken(Token.TokenType.STAR); break;
                 case '/': case ':': addToken(Token.TokenType.SLASH); break;
 
