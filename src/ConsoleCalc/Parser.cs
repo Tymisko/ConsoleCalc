@@ -18,7 +18,7 @@ namespace ConsoleCalc
         private TextWriter errorWriter = Console.Error;
         double expression()
         {
-            double left = term();
+           double left = term();
             if(lastToken) return left;
             Token currentToken = ts.get();
             while(true)
@@ -33,6 +33,18 @@ namespace ConsoleCalc
                         left -= term();
                         currentToken = ts.get();
                         break;
+                    // to handle '2(1+3)'
+                    case Token.TokenType.LEFT_PAREN:
+                        {
+                            double d = expression();
+                            currentToken = ts.get();
+                            if (currentToken.type != Token.TokenType.RIGHT_PAREN)
+                            {
+                                errorWriter.WriteLine("')' was expected.");
+                                throw new ArgumentException();
+                            }
+                            return left*d;
+                        }
                     default:
                         ts.putback(currentToken);
                         return left;

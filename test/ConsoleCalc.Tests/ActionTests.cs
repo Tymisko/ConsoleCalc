@@ -32,5 +32,14 @@ namespace ConsoleCalc.Tests
             // assert
             Assert.Equal(8, parsedScan.result);
         }
+        [Fact]
+        void action03()
+        {
+            // arrange
+            Scanner scan = new Scanner("2(1+3)");
+            Parser parsedScan = new Parser(scan.scanTokens());
+            // assert
+            Assert.Equal(8, parsedScan.result);
+        }
     }
 }
