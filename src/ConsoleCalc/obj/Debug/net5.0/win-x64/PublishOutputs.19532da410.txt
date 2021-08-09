@@ -1,6 +1,0 @@
-C:\Users\Janek\Desktop\ConsoleCalc\ConsoleCalc.pdb
-C:\Users\Janek\Desktop\ConsoleCalc\clrcompression.dll
-C:\Users\Janek\Desktop\ConsoleCalc\clrjit.dll
-C:\Users\Janek\Desktop\ConsoleCalc\coreclr.dll
-C:\Users\Janek\Desktop\ConsoleCalc\mscordaccore.dll
-C:\Users\Janek\Desktop\ConsoleCalc\ConsoleCalc.exe

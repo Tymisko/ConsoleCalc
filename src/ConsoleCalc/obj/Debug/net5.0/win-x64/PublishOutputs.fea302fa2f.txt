@@ -1,6 +1,0 @@
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\ConsoleCalc.pdb
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\clrcompression.dll
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\clrjit.dll
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\coreclr.dll
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\mscordaccore.dll
-H:\Repositories\consoleCalc\src\ConsoleCalc\bin\Debug\net5.0\win-x64\publish\ConsoleCalc.exe
