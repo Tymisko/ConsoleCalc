@@ -6,7 +6,7 @@ namespace ConsoleCalc
     {
         static void Main(string[] args)
         {
-            Laucher.Start();
+            Laucher.StartProgram();
         }
     }
 }

@@ -8,13 +8,13 @@ namespace ConsoleCalc
         
         private static TextWriter errorWriter = Console.Error;
         private static bool problem = false;
-        public static void Start()
+        public static void StartProgram()
         {
             System.Console.WriteLine("ConsoleCalc 1.05");
             printInstructions();
             while(!problem) RunCalculator();
         }
-        static void RunCalculator()
+        private static void RunCalculator()
         {
             while(!problem)
             {  
@@ -41,7 +41,7 @@ namespace ConsoleCalc
             }
             problem = false;
         }
-        static void printInstructions()
+        private static void printInstructions()
         {
             System.Console.WriteLine("Supported actions:\n- Addition '+'\n- Subtraction '-'\n- Multiplication '*'\n- Division '/' or ':'\n- Raising to power '^'\n- Actions in parentheses and braces '('action')' or '{'action'}'");
             System.Console.WriteLine("\nUsage: Enter mathematical operation and press enter.\n");

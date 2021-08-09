@@ -7,12 +7,12 @@ namespace ConsoleCalc
     class Parser 
     {
         public double result;
-        TokenStream ts;
+        TokenStream tokenStream;
         private bool lastToken = false;
         public Parser(List<Token> tokens)
         {
-            TokenStream ts = new TokenStream(tokens);
-            this.ts = ts;
+            TokenStream tokenStream = new TokenStream(tokens);
+            this.tokenStream = tokenStream;
             result = expression();
         }
         private TextWriter errorWriter = Console.Error;
@@ -20,24 +20,24 @@ namespace ConsoleCalc
         {
            double left = term();
             if(lastToken) return left;
-            Token currentToken = ts.get();
+            Token currentToken = tokenStream.get();
             while(true)
             {
                 switch(currentToken.type)
                 {
                     case Token.TokenType.PLUS:
                         left += term();
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         break;
                     case Token.TokenType.MINUS: 
                         left -= term();
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         break;
                     // to handle '2(1+3)'
                     case Token.TokenType.LEFT_PAREN:
                         {
                             double d = expression();
-                            currentToken = ts.get();
+                            currentToken = tokenStream.get();
                             if (currentToken.type != Token.TokenType.RIGHT_PAREN)
                             {
                                 errorWriter.WriteLine("')' was expected.");
@@ -46,7 +46,7 @@ namespace ConsoleCalc
                             return left*d;
                         }
                     default:
-                        ts.putback(currentToken);
+                        tokenStream.putback(currentToken);
                         return left;
                 }
             }
@@ -55,42 +55,42 @@ namespace ConsoleCalc
         {
             double left = primary();
             if(lastToken) return left;
-            Token currentToken = ts.get();
+            Token currentToken = tokenStream.get();
             while(true)
             {
                 switch(currentToken.type)
                 {
                     case Token.TokenType.CARET:
                         left = Math.Pow(left, primary());
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         break;
                     case Token.TokenType.STAR:
                         left *= primary();
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         break;
                     case Token.TokenType.SLASH:
                     {
                         double d = primary();
                         if(d == 0) throw new DivideByZeroException();
                         left /= d;
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         break;
                     }
                     default:
-                        ts.putback(currentToken);
+                        tokenStream.putback(currentToken);
                         return left;
                 }
             }
         }
         double primary()
         {
-            Token currentToken = ts.get();
+            Token currentToken = tokenStream.get();
             switch(currentToken.type)
             {
                 case Token.TokenType.LEFT_PAREN:
                     {
                         double d = expression();
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         if(currentToken.type != Token.TokenType.RIGHT_PAREN)
                         {
                             errorWriter.WriteLine("')' was expected.");
@@ -101,7 +101,7 @@ namespace ConsoleCalc
                 case Token.TokenType.LEFT_BRACE:
                     {
                         double d = expression();
-                        currentToken = ts.get();
+                        currentToken = tokenStream.get();
                         if(currentToken.type != Token.TokenType.RIGHT_BRACE)
                         {
                             errorWriter.WriteLine("'}' was expected.");
