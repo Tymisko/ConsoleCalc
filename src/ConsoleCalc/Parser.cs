@@ -1,128 +1,173 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿// <copyright file="Parser.cs" company="Jan Urbaś">
+// Copyright (c) Jan Urbaś. All rights reserved.
+// </copyright>
 
 namespace ConsoleCalc
 {
-    class Parser 
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    /// <summary>
+    /// Parsing scanned string.
+    /// </summary>
+    /// <return>Result is available as field of Parser element.</return>
+    internal class Parser
     {
-        public double result;
-        TokenStream tokenStream;
+        /// <summary>
+        /// Contains result of mathematical operation.
+        /// </summary>
+        private double result;
+        private TokenStream tokenStream;
         private bool lastToken = false;
+        private TextWriter errorWriter = Console.Error;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser"/> class.
+        /// </summary>
+        /// <param name="tokens">Scanned source by Scanner class.</param>
         public Parser(List<Token> tokens)
         {
             TokenStream tokenStream = new TokenStream(tokens);
             this.tokenStream = tokenStream;
-            result = expression();
+            this.result = this.Expression();
         }
-        private TextWriter errorWriter = Console.Error;
-        double expression()
+
+        /// <summary>Public method that return result.</summary>
+        /// <returns>Result of scanned and parsed tokens.</returns>
+        public double Result()
         {
-           double left = term();
-            if(lastToken) return left;
-            Token currentToken = tokenStream.get();
-            while(true)
+            return this.result;
+        }
+
+        private double Expression()
+        {
+            double left = this.Term();
+            if (this.lastToken)
             {
-                switch(currentToken.type)
+                return left;
+            }
+
+            Token currentToken = this.tokenStream.Get();
+            while (true)
+            {
+                switch (currentToken.Type)
                 {
                     case Token.TokenType.PLUS:
-                        left += term();
-                        currentToken = tokenStream.get();
+                        left += this.Term();
+                        currentToken = this.tokenStream.Get();
                         break;
-                    case Token.TokenType.MINUS: 
-                        left -= term();
-                        currentToken = tokenStream.get();
+                    case Token.TokenType.MINUS:
+                        left -= this.Term();
+                        currentToken = this.tokenStream.Get();
                         break;
+
                     // to handle '2(1+3)'
                     case Token.TokenType.LEFT_PAREN:
                         {
-                            double d = expression();
-                            currentToken = tokenStream.get();
-                            if (currentToken.type != Token.TokenType.RIGHT_PAREN)
+                            double d = this.Expression();
+                            currentToken = this.tokenStream.Get();
+                            if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
                             {
-                                errorWriter.WriteLine("')' was expected.");
+                                this.errorWriter.WriteLine("')' was expected.");
                                 throw new ArgumentException();
                             }
-                            return left*d;
+
+                            return left * d;
                         }
+
                     default:
-                        tokenStream.putback(currentToken);
+                        this.tokenStream.PutBack(currentToken);
                         return left;
                 }
             }
         }
-        double term()
+
+        private double Term()
         {
-            double left = primary();
-            if(lastToken) return left;
-            Token currentToken = tokenStream.get();
-            while(true)
+            double left = this.Primary();
+            if (this.lastToken)
             {
-                switch(currentToken.type)
+                return left;
+            }
+
+            Token currentToken = this.tokenStream.Get();
+            while (true)
+            {
+                switch (currentToken.Type)
                 {
                     case Token.TokenType.CARET:
-                        left = Math.Pow(left, primary());
-                        currentToken = tokenStream.get();
+                        left = Math.Pow(left, this.Primary());
+                        currentToken = this.tokenStream.Get();
                         break;
                     case Token.TokenType.STAR:
-                        left *= primary();
-                        currentToken = tokenStream.get();
+                        left *= this.Primary();
+                        currentToken = this.tokenStream.Get();
                         break;
                     case Token.TokenType.SLASH:
                     {
-                        double d = primary();
-                        if(d == 0) throw new DivideByZeroException();
+                        double d = this.Primary();
+                        if (d == 0)
+                        {
+                            throw new DivideByZeroException();
+                        }
+
                         left /= d;
-                        currentToken = tokenStream.get();
+                        currentToken = this.tokenStream.Get();
                         break;
                     }
+
                     default:
-                        tokenStream.putback(currentToken);
+                        this.tokenStream.PutBack(currentToken);
                         return left;
                 }
             }
         }
-        double primary()
+
+        private double Primary()
         {
-            Token currentToken = tokenStream.get();
-            switch(currentToken.type)
+            Token currentToken = this.tokenStream.Get();
+            switch (currentToken.Type)
             {
                 case Token.TokenType.LEFT_PAREN:
                     {
-                        double d = expression();
-                        currentToken = tokenStream.get();
-                        if(currentToken.type != Token.TokenType.RIGHT_PAREN)
+                        double d = this.Expression();
+                        currentToken = this.tokenStream.Get();
+                        if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
                         {
-                            errorWriter.WriteLine("')' was expected.");
+                            this.errorWriter.WriteLine("')' was expected.");
                             throw new ArgumentException();
                         }
+
                         return d;
                     }
+
                 case Token.TokenType.LEFT_BRACE:
                     {
-                        double d = expression();
-                        currentToken = tokenStream.get();
-                        if(currentToken.type != Token.TokenType.RIGHT_BRACE)
+                        double d = this.Expression();
+                        currentToken = this.tokenStream.Get();
+                        if (currentToken.Type != Token.TokenType.RIGHT_BRACE)
                         {
-                            errorWriter.WriteLine("'}' was expected.");
+                            this.errorWriter.WriteLine("'}' was expected.");
                             throw new ArgumentException();
                         }
-                            
+
                         return d;
                     }
+
                 case Token.TokenType.NUMBER:
-                    return Convert.ToDouble(currentToken.value);
+                    return Convert.ToDouble(currentToken.Value);
                 case Token.TokenType.WHITESPACE:
-                    return primary();
+                    return this.Primary();
+
                 // Support actions where minus is first token
                 case Token.TokenType.MINUS:
-                    return primary()*-1;
+                    return this.Primary() * -1;
                 case Token.TokenType.EQUAL:
-                case Token.TokenType.EOF:
-                    lastToken = true;
+                    this.lastToken = true;
                     return 0;
                 default:
-                    errorWriter.WriteLine("Factor was expected.");
+                    this.errorWriter.WriteLine("Factor was expected.");
                     throw new ArgumentException();
             }
         }
