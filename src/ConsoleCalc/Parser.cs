@@ -40,6 +40,7 @@ namespace ConsoleCalc
             return this.result;
         }
 
+        // Supports addition, subtraction and parenthesis
         private double Expression()
         {
             double left = this.Term();
@@ -83,6 +84,7 @@ namespace ConsoleCalc
             }
         }
 
+        // Supports mulptiplications, divisions and raising to power
         private double Term()
         {
             double left = this.Primary();
@@ -124,6 +126,7 @@ namespace ConsoleCalc
             }
         }
 
+        // supports primary elements like number, equal and parentheses inside another parentheses.
         private double Primary()
         {
             Token currentToken = this.tokenStream.Get();
@@ -160,7 +163,7 @@ namespace ConsoleCalc
                 case Token.TokenType.WHITESPACE:
                     return this.Primary();
 
-                // Support actions where minus is first token
+                // Supports actions where minus is first token
                 case Token.TokenType.MINUS:
                     return this.Primary() * -1;
                 case Token.TokenType.EQUAL:
