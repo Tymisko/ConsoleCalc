@@ -14,7 +14,7 @@ namespace ConsoleCalc.Tests
     public class ScannerTests
     {
         [Fact]
-        private void SimpleCalculationTest()
+        private void Scanned_Tokens_Should_Match_correctTokens()
         {
             // arrange
                 Scanner scan = new Scanner("5+2");
@@ -36,7 +36,7 @@ namespace ConsoleCalc.Tests
         }
 
         [Fact]
-        private void ParenScanTest()
+        private void Should_Correcly_Scan_Parenthesis()
         {
             // arrange
                 Scanner parenScan = new Scanner("2*(33+2)");

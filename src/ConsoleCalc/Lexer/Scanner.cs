@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ConsoleCalc.Tests")] // allows internal class to being tested.
+[assembly: InternalsVisibleTo("ConsoleCalc.Tests")]
 
 namespace ConsoleCalc
 {
