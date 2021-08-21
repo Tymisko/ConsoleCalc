@@ -1,6 +1,6 @@
 # ConsoleCalc
 
-ConsoleCalc is a console application that doing calculations.
+ConsoleCalc is a console application that is doing calculations.
 
 ## Installation
 [Download](https://github.com/Tymisko/ConsoleCalc/releases) ConsoleCalc_x_x.zip

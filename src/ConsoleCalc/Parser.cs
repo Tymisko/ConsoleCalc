@@ -65,16 +65,9 @@ namespace ConsoleCalc
 
                     // to handle '2(1+3)'
                     case Token.TokenType.LEFT_PAREN:
+                    case Token.TokenType.LEFT_BRACE:
                         {
-                            double d = this.Expression();
-                            currentToken = this.tokenStream.Get();
-                            if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
-                            {
-                                this.errorWriter.WriteLine("')' was expected.");
-                                throw new ArgumentException();
-                            }
-
-                            return left * d;
+                            return left * this.ParenthesisAction(currentToken, currentToken.Type);
                         }
 
                     default:
@@ -133,30 +126,8 @@ namespace ConsoleCalc
             switch (currentToken.Type)
             {
                 case Token.TokenType.LEFT_PAREN:
-                    {
-                        double d = this.Expression();
-                        currentToken = this.tokenStream.Get();
-                        if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
-                        {
-                            this.errorWriter.WriteLine("')' was expected.");
-                            throw new ArgumentException();
-                        }
-
-                        return d;
-                    }
-
                 case Token.TokenType.LEFT_BRACE:
-                    {
-                        double d = this.Expression();
-                        currentToken = this.tokenStream.Get();
-                        if (currentToken.Type != Token.TokenType.RIGHT_BRACE)
-                        {
-                            this.errorWriter.WriteLine("'}' was expected.");
-                            throw new ArgumentException();
-                        }
-
-                        return d;
-                    }
+                    return this.ParenthesisAction(currentToken, currentToken.Type);
 
                 case Token.TokenType.NUMBER:
                     return Convert.ToDouble(currentToken.Value);
@@ -173,6 +144,45 @@ namespace ConsoleCalc
                     this.errorWriter.WriteLine("Factor was expected.");
                     throw new ArgumentException();
             }
+        }
+
+        private double ParenthesisAction(Token currentToken, Token.TokenType parentType)
+        {
+            double d = this.Expression();
+            currentToken = this.tokenStream.Get();
+
+            if (currentToken.Type == Token.TokenType.WHITESPACE)
+            {
+                d = this.Expression();
+                currentToken = this.tokenStream.Get();
+            }
+
+            switch (parentType)
+            {
+                case Token.TokenType.LEFT_BRACE:
+                    {
+                        if (currentToken.Type != Token.TokenType.RIGHT_BRACE)
+                        {
+                            this.errorWriter.WriteLine("'}' was expected.");
+                            throw new ArgumentException();
+                        }
+
+                        break;
+                    }
+
+                case Token.TokenType.LEFT_PAREN:
+                    {
+                        if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
+                        {
+                            this.errorWriter.WriteLine("')' was expected.");
+                            throw new ArgumentException();
+                        }
+
+                        break;
+                    }
+            }
+
+            return d;
         }
     }
 }

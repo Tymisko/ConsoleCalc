@@ -48,14 +48,17 @@ namespace ConsoleCalc
         /// <param name="currentToken">Token that will be stored in buffer.</param>
         public void PutBack(Token currentToken)
         {
-            if (this.full)
+            if (currentToken.Type != Token.TokenType.WHITESPACE)
             {
-                this.errorWriter.WriteLine("Putback executed when bufor is full.");
-                throw new ArgumentException();
-            }
+                if (this.full)
+                {
+                    this.errorWriter.WriteLine("Putback executed when bufor is full.");
+                    throw new ArgumentException();
+                }
 
-            this.buffer = currentToken;
-            this.full = true;
+                this.buffer = currentToken;
+                this.full = true;
+            }
         }
     }
 }

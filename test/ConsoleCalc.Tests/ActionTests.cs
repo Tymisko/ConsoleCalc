@@ -11,70 +11,29 @@ namespace ConsoleCalc.Tests
     /// </summary>
     public class ActionTests
     {
-        [Fact]
-        private void Action00()
+        [Theory]
+        [InlineData("2+6:2*3")]
+        [InlineData("7-2*0+5:5-2")]
+        [InlineData("2*(1+3)")]
+        [InlineData("2(1 + 3)")]
+        [InlineData("-99 + 1)")]
+        [InlineData("(-99+1)*1=")]
+        private void Should_Be_Correctly_Calculated(string source)
         {
             // arrange
-            Scanner scan = new Scanner("2+6:2*3");
+            Scanner scan = new Scanner(source);
             Parser parsedScan = new Parser(scan.ScanTokens());
 
             // assert
-            Assert.Equal(11, parsedScan.Result());
-        }
-
-        [Fact]
-        private void Action01()
-        {
-            // arrange
-            Scanner scan = new Scanner("7-2*0+5:5-2");
-            Parser parsedScan = new Parser(scan.ScanTokens());
-
-            // assert
-            Assert.Equal(6, parsedScan.Result());
-        }
-
-        [Fact]
-        private void Action02()
-        {
-            // arrange
-            Scanner scan = new Scanner("2*(1+3)");
-            Parser parsedScan = new Parser(scan.ScanTokens());
-
-            // assert
-            Assert.Equal(8, parsedScan.Result());
-        }
-
-        [Fact]
-        private void Action03()
-        {
-            // arrange
-            Scanner scan = new Scanner("2(1+3)");
-            Parser parsedScan = new Parser(scan.ScanTokens());
-
-            // assert
-            Assert.Equal(8, parsedScan.Result());
-        }
-
-        [Fact]
-        private void Action04()
-        {
-            // arrange
-            Scanner scan = new Scanner("-99+1");
-            Parser parsedScan = new Parser(scan.ScanTokens());
-
-            // assert
-            Assert.Equal(-98, parsedScan.Result());
-        }
-
-        [Fact]
-        private void Action05()
-        {
-            // arrange
-            Scanner scan = new Scanner("(-99+1)*1=");
-            Parser parsedScan = new Parser(scan.ScanTokens());
-
-            // assert
-            Assert.Equal(-98, parsedScan.Result());
+            switch (source)
+            {
+                case "2+6:2*3": Assert.Equal(11, parsedScan.Result()); break;
+                case "7-2*0+5:5-2": Assert.Equal(6, parsedScan.Result()); break;
+                case "2*(1+3)": Assert.Equal(8, parsedScan.Result()); break;
+                case "2(1 + 3)": Assert.Equal(8, parsedScan.Result()); break;
+                case "- 99 + 1": Assert.Equal(-98, parsedScan.Result()); break;
+                case "(-99+1)*1=": Assert.Equal(-98, parsedScan.Result()); break;
+            }
         }
     }
 }
