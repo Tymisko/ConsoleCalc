@@ -70,6 +70,7 @@ namespace ConsoleCalc
                 case '}': this.AddToken(Token.TokenType.RIGHT_BRACE); break;
 
                 case '^': this.AddToken(Token.TokenType.CARET); break;
+                case '%': this.AddToken(Token.TokenType.PERCENT); break;
 
                 case '*': this.AddToken(Token.TokenType.STAR); break;
                 case '/': case ':': this.AddToken(Token.TokenType.SLASH); break;
@@ -78,7 +79,7 @@ namespace ConsoleCalc
                 case '-': this.AddToken(Token.TokenType.MINUS); break;
 
                 case '=': this.AddToken(Token.TokenType.EQUAL); break;
-                case ' ': this.AddToken(Token.TokenType.WHITESPACE); break;
+                case ' ': break; // ignores spaces
 
                 default:
                     if (this.IsDigit(c))

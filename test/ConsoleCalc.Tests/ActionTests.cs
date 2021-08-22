@@ -22,6 +22,9 @@ namespace ConsoleCalc.Tests
         [InlineData("2 ^ 5")]
         [InlineData("2(1+5^2)^3")]
         [InlineData("(1 + 3)2")]
+        [InlineData("25%*4")] // percentage of number
+        [InlineData("125%10")] // modulo
+        [InlineData("2(25%*100+5^2)^3%13")]
         private void Should_Be_Correctly_Calculated(string source)
         {
             // arrange
@@ -41,6 +44,9 @@ namespace ConsoleCalc.Tests
                 case "2 ^ 5": Assert.Equal(32, parsedScan.Result()); break;
                 case "2(1+5^2)^3": Assert.Equal(35152, parsedScan.Result()); break;
                 case "(1 + 3)2": Assert.Equal(8, parsedScan.Result()); break;
+                case "25%*4": Assert.Equal(1, parsedScan.Result()); break;
+                case "125%10": Assert.Equal(5, parsedScan.Result()); break;
+                case "2(25%*100+5^2)^3%13": Assert.Equal(10, parsedScan.Result()); break;
             }
         }
     }

@@ -16,7 +16,6 @@ namespace ConsoleCalc
         private bool full = false;
         private Token buffer;
         private List<Token> tokens;
-        private TextWriter errorWriter = Console.Error;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenStream"/> class.
@@ -48,24 +47,19 @@ namespace ConsoleCalc
         /// <param name="currentToken">Token that will be stored in buffer.</param>
         public void PutBack(Token currentToken)
         {
-            if (currentToken.Type != Token.TokenType.WHITESPACE)
-            {
                 if (this.full)
                 {
-                    this.errorWriter.WriteLine("Putback executed when bufor is full.");
-                    throw new ArgumentException();
+                    throw new ArgumentException("Putback executed when bufor is full.");
                 }
 
                 this.buffer = currentToken;
                 this.full = true;
-            }
         }
 
         /// <summary>
         /// Look forward to check what is next token.
         /// </summary>
         /// <returns>Next token without incrementing 'current' iterator.</returns>
-        /// <param name="steps">Amount of steps to look forward.</param>
         public Token LookForward()
         {
             if (!this.IsAtEnd())
@@ -81,10 +75,9 @@ namespace ConsoleCalc
         /// <summary>
         /// Increases token stream iterator.
         /// </summary>
-        /// <param name="steps">Amount of steps to go forward.</param>
-        public void Forward(int steps)
+        public void Forward()
         {
-            this.current += steps;
+            this.current++;
         }
 
         /// <summary>

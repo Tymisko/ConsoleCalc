@@ -60,7 +60,7 @@ namespace ConsoleCalc
 
         private static void PrintInstructions()
         {
-            System.Console.WriteLine("Supported actions:\n- Addition '+'\n- Subtraction '-'\n- Multiplication '*'\n- Division '/' or ':'\n- Raising to power '^'\n- Actions in parentheses and braces '('action')' or '{'action'}'");
+            System.Console.WriteLine("Supported actions:\n- Addition '+'\n- Subtraction '-'\n- Multiplication '*'\n- Division '/' or ':'\n- Raising to power '^'\n- Actions in parentheses and braces '('action')' or '{'action'}'\n- Remainder '%' (ex. 125%10 is equal 5)\n- Percent of number (ex. 25%*4 is equal 1)");
             System.Console.WriteLine("\nUsage: Enter mathematical operation and press enter.\n");
         }
     }

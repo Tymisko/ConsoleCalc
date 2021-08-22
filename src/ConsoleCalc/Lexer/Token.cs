@@ -42,6 +42,9 @@ namespace ConsoleCalc
             /// <summary>Represents '^' that is raising to power operator.</summary>
             CARET,
 
+            /// <summary>Represents '%' that is calcualting percent of number</summary>
+            PERCENT,
+
             /// <summary>Represents '*' that is multiplication operator.</summary>
             STAR,
 
@@ -56,9 +59,6 @@ namespace ConsoleCalc
 
             /// <summary>Represents "number" token type</summary>
             NUMBER,
-
-            /// <summary>Represents whitespaces tokens type</summary>
-            WHITESPACE,
 
             /// <summary>Represents '='</summary>
             EQUAL,

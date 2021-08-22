@@ -6,7 +6,6 @@ namespace ConsoleCalc
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     /// <summary>
     /// Parsing scanned string.
@@ -14,10 +13,9 @@ namespace ConsoleCalc
     /// <return>Result is available as field of Parser element.</return>
     internal class Parser
     {
-        private double result;
+        private double result = 0;
         private TokenStream tokenStream;
         private bool lastToken = false;
-        private TextWriter errorWriter = Console.Error;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Parser"/> class.
@@ -37,7 +35,7 @@ namespace ConsoleCalc
             return this.result;
         }
 
-        // Supports addition, subtraction and parenthesis
+        // Supports addition, subtraction, parenthesis, percent of number and modulo
         private double Expression()
         {
             double left = this.Term();
@@ -52,36 +50,43 @@ namespace ConsoleCalc
                 switch (currentToken.Type)
                 {
                     case Token.TokenType.PLUS:
-                        left += this.Term();
-                        currentToken = this.tokenStream.Get();
-                        break;
+                        {
+                            left += this.Term();
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
+
                     case Token.TokenType.MINUS:
-                        left -= this.Term();
-                        currentToken = this.tokenStream.Get();
-                        break;
+                        {
+                            left -= this.Term();
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
 
                     // to handle '2(1+3)'
                     case Token.TokenType.LEFT_PAREN:
                     case Token.TokenType.LEFT_BRACE:
                         {
-                            double parenthesisResult = this.ParenthesisAction(out currentToken, currentToken.Type);
-                            if (!this.tokenStream.IsAtEnd() && this.tokenStream.LookForward().Type == Token.TokenType.CARET)
-                            {
-                                this.tokenStream.Forward(1);
-                                return left * Math.Pow(parenthesisResult, this.Primary());
-                            }
-                            else
-                            {
-                                return left * parenthesisResult;
-                            }
+                            // to handle raising to power
+                            left = this.ParenthesisAction(left, out currentToken, currentToken.Type);
+                            currentToken = this.tokenStream.Get();
+                            break;
                         }
 
                     // to handle '(1+3)2'
                     case Token.TokenType.NUMBER:
-                        return left * currentToken.Value;
+                        {
+                            left *= currentToken.Value;
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
 
-                    case Token.TokenType.CARET:
-                        return Math.Pow(left, this.Primary());
+                    case Token.TokenType.PERCENT:
+                        {
+                            left = this.PercentAction(left);
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
 
                     default:
                         this.tokenStream.PutBack(currentToken);
@@ -105,29 +110,31 @@ namespace ConsoleCalc
                 switch (currentToken.Type)
                 {
                     case Token.TokenType.CARET:
-                        left = Math.Pow(left, this.Primary());
-                        currentToken = this.tokenStream.Get();
-                        break;
-                    case Token.TokenType.STAR:
-                        left *= this.Primary();
-                        currentToken = this.tokenStream.Get();
-                        break;
-                    case Token.TokenType.SLASH:
-                    {
-                        double d = this.Primary();
-                        if (d == 0)
                         {
-                            throw new DivideByZeroException();
+                            left = Math.Pow(left, this.Primary());
+                            currentToken = this.tokenStream.Get();
+                            break;
                         }
 
-                        left /= d;
-                        currentToken = this.tokenStream.Get();
-                        break;
-                    }
+                    case Token.TokenType.STAR:
+                        {
+                            left *= this.Primary();
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
+
+                    case Token.TokenType.SLASH:
+                        {
+                            left = this.Dividing(left);
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
 
                     default:
-                        this.tokenStream.PutBack(currentToken);
-                        return left;
+                        {
+                            this.tokenStream.PutBack(currentToken);
+                            return left;
+                        }
                 }
             }
         }
@@ -144,31 +151,36 @@ namespace ConsoleCalc
 
                 case Token.TokenType.NUMBER:
                     return Convert.ToDouble(currentToken.Value);
-                case Token.TokenType.WHITESPACE:
-                    return this.Primary();
 
                 // Supports actions where minus is first token
                 case Token.TokenType.MINUS:
                     return this.Primary() * -1;
+
                 case Token.TokenType.EQUAL:
                     this.lastToken = true;
                     return 0;
+
                 default:
-                    this.errorWriter.WriteLine("Factor was expected.");
-                    throw new ArgumentException();
+                    throw new ArgumentException("Factor was expected.");
             }
         }
 
-        private double ParenthesisAction(out Token currentToken, Token.TokenType parentType)
+        private double Dividing(double left)
         {
-            double d = this.Expression();
-            currentToken = this.tokenStream.Get();
-
-            if (currentToken.Type == Token.TokenType.WHITESPACE)
+            double d = this.Primary();
+            if (d == 0)
             {
-                d = this.Expression();
-                currentToken = this.tokenStream.Get();
+                throw new DivideByZeroException();
             }
+
+            left /= d;
+            return left;
+        }
+
+        private double ParenthesisAction(double left, out Token currentToken, Token.TokenType parentType)
+        {
+            double parenthesisResult = this.Expression();
+            currentToken = this.tokenStream.Get();
 
             switch (parentType)
             {
@@ -176,8 +188,7 @@ namespace ConsoleCalc
                     {
                         if (currentToken.Type != Token.TokenType.RIGHT_BRACE)
                         {
-                            this.errorWriter.WriteLine("'}' was expected.");
-                            throw new ArgumentException();
+                            throw new ArgumentException("'}' was expected.");
                         }
 
                         break;
@@ -187,15 +198,68 @@ namespace ConsoleCalc
                     {
                         if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
                         {
-                            this.errorWriter.WriteLine("')' was expected.");
-                            throw new ArgumentException();
+                            throw new ArgumentException("')' was expected.");
                         }
 
                         break;
                     }
             }
 
-            return d;
+            if (!this.tokenStream.IsAtEnd() && this.tokenStream.LookForward().Type == Token.TokenType.CARET)
+            {
+                this.tokenStream.Forward();
+                left *= Math.Pow(parenthesisResult, this.Primary());
+            }
+            else
+            {
+                left *= parenthesisResult;
+            }
+
+            return left;
+        }
+
+        private double ParenthesisAction(out Token currentToken, Token.TokenType parentType)
+        {
+            double parenthesisResult = this.Expression();
+            currentToken = this.tokenStream.Get();
+
+            switch (parentType)
+            {
+                case Token.TokenType.LEFT_BRACE:
+                    {
+                        if (currentToken.Type != Token.TokenType.RIGHT_BRACE)
+                        {
+                            throw new ArgumentException("'}' was expected.");
+                        }
+
+                        break;
+                    }
+
+                case Token.TokenType.LEFT_PAREN:
+                    {
+                        if (currentToken.Type != Token.TokenType.RIGHT_PAREN)
+                        {
+                            throw new ArgumentException("')' was expected.");
+                        }
+
+                        break;
+                    }
+            }
+
+            return parenthesisResult;
+        }
+
+        private double PercentAction(double left)
+        {
+            // for percent calculation of number 'x %* y'
+            if (this.tokenStream.LookForward().Type == Token.TokenType.STAR)
+            {
+                this.tokenStream.Forward();
+                return (left / 100) * this.Primary();
+            }
+
+            // for modulo 'x % y'
+            return left % this.Primary();
         }
     }
 }
