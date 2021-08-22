@@ -60,5 +60,40 @@ namespace ConsoleCalc
                 this.full = true;
             }
         }
+
+        /// <summary>
+        /// Look forward to check what is next token.
+        /// </summary>
+        /// <returns>Next token without incrementing 'current' iterator.</returns>
+        /// <param name="steps">Amount of steps to look forward.</param>
+        public Token LookForward()
+        {
+            if (!this.IsAtEnd())
+            {
+                return this.tokens[this.current];
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Look forward while at end.");
+            }
+        }
+
+        /// <summary>
+        /// Increases token stream iterator.
+        /// </summary>
+        /// <param name="steps">Amount of steps to go forward.</param>
+        public void Forward(int steps)
+        {
+            this.current += steps;
+        }
+
+        /// <summary>
+        /// Checks if token stream is at the end of token list.
+        /// </summary>
+        /// <returns>Returns boolean if iterator is at end of token lists.</returns>
+        public bool IsAtEnd()
+        {
+            return this.current >= this.tokens.Count - 1;
+        }
     }
 }

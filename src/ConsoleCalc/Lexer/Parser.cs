@@ -14,9 +14,6 @@ namespace ConsoleCalc
     /// <return>Result is available as field of Parser element.</return>
     internal class Parser
     {
-        /// <summary>
-        /// Contains result of mathematical operation.
-        /// </summary>
         private double result;
         private TokenStream tokenStream;
         private bool lastToken = false;
@@ -67,8 +64,24 @@ namespace ConsoleCalc
                     case Token.TokenType.LEFT_PAREN:
                     case Token.TokenType.LEFT_BRACE:
                         {
-                            return left * this.ParenthesisAction(currentToken, currentToken.Type);
+                            double parenthesisResult = this.ParenthesisAction(out currentToken, currentToken.Type);
+                            if (!this.tokenStream.IsAtEnd() && this.tokenStream.LookForward().Type == Token.TokenType.CARET)
+                            {
+                                this.tokenStream.Forward(1);
+                                return left * Math.Pow(parenthesisResult, this.Primary());
+                            }
+                            else
+                            {
+                                return left * parenthesisResult;
+                            }
                         }
+
+                    // to handle '(1+3)2'
+                    case Token.TokenType.NUMBER:
+                        return left * currentToken.Value;
+
+                    case Token.TokenType.CARET:
+                        return Math.Pow(left, this.Primary());
 
                     default:
                         this.tokenStream.PutBack(currentToken);
@@ -127,7 +140,7 @@ namespace ConsoleCalc
             {
                 case Token.TokenType.LEFT_PAREN:
                 case Token.TokenType.LEFT_BRACE:
-                    return this.ParenthesisAction(currentToken, currentToken.Type);
+                    return this.ParenthesisAction(out currentToken, currentToken.Type);
 
                 case Token.TokenType.NUMBER:
                     return Convert.ToDouble(currentToken.Value);
@@ -146,7 +159,7 @@ namespace ConsoleCalc
             }
         }
 
-        private double ParenthesisAction(Token currentToken, Token.TokenType parentType)
+        private double ParenthesisAction(out Token currentToken, Token.TokenType parentType)
         {
             double d = this.Expression();
             currentToken = this.tokenStream.Get();

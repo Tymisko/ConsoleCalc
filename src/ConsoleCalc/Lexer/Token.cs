@@ -76,7 +76,7 @@ namespace ConsoleCalc
         }
 
         /// <summary>
-        /// Gets value of token.
+        /// Gets value of current token.
         /// </summary>
         public double Value
         {

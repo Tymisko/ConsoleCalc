@@ -18,6 +18,10 @@ namespace ConsoleCalc.Tests
         [InlineData("2(1 + 3)")]
         [InlineData("-99 + 1)")]
         [InlineData("(-99+1)*1=")]
+        [InlineData("2^5")]
+        [InlineData("2 ^ 5")]
+        [InlineData("2(1+5^2)^3")]
+        [InlineData("(1 + 3)2")]
         private void Should_Be_Correctly_Calculated(string source)
         {
             // arrange
@@ -33,6 +37,10 @@ namespace ConsoleCalc.Tests
                 case "2(1 + 3)": Assert.Equal(8, parsedScan.Result()); break;
                 case "- 99 + 1": Assert.Equal(-98, parsedScan.Result()); break;
                 case "(-99+1)*1=": Assert.Equal(-98, parsedScan.Result()); break;
+                case "2^5": Assert.Equal(32, parsedScan.Result()); break;
+                case "2 ^ 5": Assert.Equal(32, parsedScan.Result()); break;
+                case "2(1+5^2)^3": Assert.Equal(35152, parsedScan.Result()); break;
+                case "(1 + 3)2": Assert.Equal(8, parsedScan.Result()); break;
             }
         }
     }
