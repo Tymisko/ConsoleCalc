@@ -1,7 +1,7 @@
 ﻿// <copyright file="TokenStream.cs" company="Jan Urbaś">
 // Copyright (c) Jan Urbaś. All rights reserved.
 // </copyright>
-namespace ConsoleCalc
+namespace ConsoleCalc.Lexer
 {
     using System;
     using System.Collections.Generic;

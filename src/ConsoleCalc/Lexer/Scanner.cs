@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("ConsoleCalc.Tests")]
 
-namespace ConsoleCalc
+namespace ConsoleCalc.Lexer
 {
     /// <summary>
     /// Scans string and separate it into tokens.

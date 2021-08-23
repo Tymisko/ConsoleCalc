@@ -11,10 +11,7 @@ namespace ConsoleCalc
     {
         private static void Main(string[] args)
         {
-            // Laucher.StartProgram();
-            Scanner scan = new Scanner("1(50*51)/50*51");
-            var scannedScan = scan.ScanTokens();
-            Parser parsedScan = new Parser(scannedScan);
+            Laucher.StartProgram();
         }
     }
 }

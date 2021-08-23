@@ -1,7 +1,7 @@
 ﻿// <copyright file="Token.cs" company="Jan Urbaś">
 // Copyright (c) Jan Urbaś. All rights reserved.
 // </copyright>
-namespace ConsoleCalc
+namespace ConsoleCalc.Lexer
 {
     /// <summary>
     /// Represents the smallest element of mathematical operation.

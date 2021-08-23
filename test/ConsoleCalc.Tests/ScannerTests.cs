@@ -2,11 +2,11 @@
 // Copyright (c) Jan Urbaś. All rights reserved.
 // </copyright>
 
-namespace ConsoleCalc.Tests
+namespace ConsoleCalc.Tests.Lexer
 {
-    using System;
     using System.Collections.Generic;
     using Xunit;
+    using ConsoleCalc.Lexer;
 
     /// <summary>
     /// Contains xUnit tests for Scanner class.

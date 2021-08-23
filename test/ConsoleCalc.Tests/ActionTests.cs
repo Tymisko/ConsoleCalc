@@ -5,6 +5,7 @@
 namespace ConsoleCalc.Tests
 {
     using Xunit;
+    using ConsoleCalc.Lexer;
 
     /// <summary>
     /// Testing class that contains xUnit tests for actions.

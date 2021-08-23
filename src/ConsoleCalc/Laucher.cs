@@ -6,6 +6,7 @@ namespace ConsoleCalc
 {
     using System;
     using System.IO;
+    using ConsoleCalc;
 
     /// <summary>
     /// Laucher class contains methods that are responsible for running program and communication with user.
@@ -37,8 +38,8 @@ namespace ConsoleCalc
                 {
                     System.Console.Write("Enter math operation: ");
                     string source = Console.ReadLine();
-                    Scanner scan = new Scanner(source);
-                    Parser parsedScan = new Parser(scan.ScanTokens());
+                    Lexer.Scanner scan = new Lexer.Scanner(source);
+                    Lexer.Parser parsedScan = new Lexer.Parser(scan.ScanTokens());
                     Console.Write($"={parsedScan.Result()}\n\n");
                 }
                 catch (ArgumentException)
