@@ -65,7 +65,7 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Gets token type.
+        /// Gets token type from private field inside <see cref="Token"/> class.
         /// </summary>
         public TokenType Type
         {
@@ -76,7 +76,7 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Gets value of current token.
+        /// Gets value of token from private field inside <see cref="Token"/> class.
         /// </summary>
         public double Value
         {

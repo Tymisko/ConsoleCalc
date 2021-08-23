@@ -8,9 +8,8 @@ namespace ConsoleCalc.Lexer
     using System.Collections.Generic;
 
     /// <summary>
-    /// Parsing scanned string.
+    /// Parser is a class that is responsible for managing tokens that were made by <see cref="Scanner" /> class method <see cref="Scanner.ScanTokens()"/>.
     /// </summary>
-    /// <return>Result is available as field of Parser element.</return>
     internal class Parser
     {
         private double result = 0;
@@ -20,7 +19,7 @@ namespace ConsoleCalc.Lexer
         /// <summary>
         /// Initializes a new instance of the <see cref="Parser"/> class.
         /// </summary>
-        /// <param name="tokens">Scanned source by Scanner class.</param>
+        /// <param name="tokens">return of method <see cref="Scanner.ScanTokens()"/>.</param>
         public Parser(List<Token> tokens)
         {
             TokenStream tokenStream = new TokenStream(tokens);
@@ -95,7 +94,6 @@ namespace ConsoleCalc.Lexer
                     case Token.TokenType.LEFT_PAREN:
                     case Token.TokenType.LEFT_BRACE:
                         {
-                            // to handle raising to power
                             left = this.ParenthesisAction(left, out currentToken, currentToken.Type);
                             currentToken = this.tokenStream.Get();
                             break;
@@ -252,14 +250,22 @@ namespace ConsoleCalc.Lexer
         private double PercentAction(double left)
         {
             // for percent calculation of number 'x %* y'
-            if (this.tokenStream.LookForward().Type == Token.TokenType.STAR)
+            if (!this.tokenStream.IsAtEnd())
             {
-                this.tokenStream.Forward();
-                return (left / 100) * this.Primary();
-            }
+                if (this.tokenStream.LookForward().Type == Token.TokenType.STAR)
+                {
+                    this.tokenStream.Forward();
+                    return (left / 100) * this.Primary();
+                }
 
-            // for modulo 'x % y'
-            return left % this.Primary();
+                // for modulo 'x % y'
+                return left % this.Primary();
+            }
+            else
+            {
+                this.lastToken = true;
+                return left / 100;
+            }
         }
     }
 }

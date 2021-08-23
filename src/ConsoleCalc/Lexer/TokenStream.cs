@@ -8,7 +8,7 @@ namespace ConsoleCalc.Lexer
     using System.IO;
 
     /// <summary>
-    /// Is a stream of tokens.
+    /// TokenStream is a stream of scanned tokens by <see cref="Scanner.ScanTokens()"/>. It is neccesary for properly working Parser.
     /// </summary>
     public class TokenStream
     {
@@ -16,20 +16,21 @@ namespace ConsoleCalc.Lexer
         private bool full = false;
         private Token buffer;
         private List<Token> tokens;
+        private TextWriter errorWriter = Console.Error;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenStream"/> class.
         /// </summary>
-        /// <param name="tokens">List of scanned tokens by Scanner class.</param>
+        /// <param name="tokens">List of scanned tokens by <see cref="Scanner.ScanTokens()"/>.</param>
         public TokenStream(List<Token> tokens)
         {
             this.tokens = tokens;
         }
 
         /// <summary>
-        /// Gets next token from stream.
+        /// Gets next token from <see cref="tokens"/> if <see cref="buffer"/> is empty.
         /// </summary>
-        /// <returns>Token from token's list.</returns>
+        /// <returns>Next element of <see cref="TokenStream.tokens"/>.</returns>
         public Token Get()
         {
             if (this.full)
@@ -42,9 +43,9 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Puts token back to stream. Stores it in buffer.
+        /// Puts token to <see cref="buffer"/>.
         /// </summary>
-        /// <param name="currentToken">Token that will be stored in buffer.</param>
+        /// <param name="currentToken">Token that will be stored in <see cref="buffer"/>.</param>
         public void PutBack(Token currentToken)
         {
                 if (this.full)
@@ -57,9 +58,9 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Look forward to check what is next token.
+        /// Looks forward to check next token from <see cref="tokens"/> without incrementing <see cref="current"/> iterator.
         /// </summary>
-        /// <returns>Next token without incrementing 'current' iterator.</returns>
+        /// <returns>Next token of <see cref="tokens"/>.</returns>
         public Token LookForward()
         {
             if (!this.IsAtEnd())
@@ -73,7 +74,7 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Increases token stream iterator.
+        /// Increment <see cref="current"/> that is stream iterator.
         /// </summary>
         public void Forward()
         {
@@ -81,9 +82,9 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Checks if token stream is at the end of token list.
+        /// Checks if <see cref="current"/> is at the end of <see cref="tokens"/>.
         /// </summary>
-        /// <returns>Returns boolean if iterator is at end of token lists.</returns>
+        /// <returns>True or False.</returns>
         public bool IsAtEnd()
         {
             return this.current >= this.tokens.Count - 1;

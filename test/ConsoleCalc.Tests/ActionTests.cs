@@ -4,11 +4,11 @@
 
 namespace ConsoleCalc.Tests
 {
-    using Xunit;
     using ConsoleCalc.Lexer;
+    using Xunit;
 
     /// <summary>
-    /// Testing class that contains xUnit tests for actions.
+    /// <see cref="ActionTests"/> is a class that contain single method <see cref="Should_Be_Correctly_Calculated(string, double)"/> that checks if calculator is calculating correctly various math actions.
     /// </summary>
     public class ActionTests
     {
@@ -29,6 +29,7 @@ namespace ConsoleCalc.Tests
         [InlineData("1*(50*51)/50*51", 2601)]
         [InlineData("1(50*51)/50*51", 2601)]
         [InlineData("10(5)/5", 10)]
+        [InlineData("5%", 0.05)]
 
         private void Should_Be_Correctly_Calculated(string source, double result)
         {

@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("ConsoleCalc.Tests")]
@@ -31,7 +30,7 @@ namespace ConsoleCalc.Lexer
         }
 
         /// <summary>
-        /// Gets list of tokens.
+        /// Gets list of tokens that is private field inside <see cref="Scanner"/> class.
         /// </summary>
         public List<Token> Tokens
         {

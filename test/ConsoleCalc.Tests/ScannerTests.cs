@@ -5,11 +5,11 @@
 namespace ConsoleCalc.Tests.Lexer
 {
     using System.Collections.Generic;
-    using Xunit;
     using ConsoleCalc.Lexer;
+    using Xunit;
 
     /// <summary>
-    /// Contains xUnit tests for Scanner class.
+    /// Contains xUnit tests for <see cref="Scanner"/> class.
     /// </summary>
     public class ScannerTests
     {

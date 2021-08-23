@@ -5,7 +5,7 @@
 namespace ConsoleCalc
 {
     /// <summary>
-    /// Class that contains Main method.
+    /// <see cref="Program"/> is an entry level class which contains <see cref="Program.Main(string[])"/> method responsible for running calculator. There are no arguments required because it only triggers <see cref="Laucher.StartProgram()"/> method.
     /// </summary>
     public class Program
     {
