@@ -1,5 +1,5 @@
 ## Project Status
-Project has reached final stage. It is suspended until I learn how to create C# applications with GUI.
+Project has reached final stage. Suspended until I learn how to create C# applications with GUI.
 
 # ConsoleCalc
 
