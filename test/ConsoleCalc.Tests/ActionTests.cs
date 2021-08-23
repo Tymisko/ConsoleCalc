@@ -25,6 +25,10 @@ namespace ConsoleCalc.Tests
         [InlineData("25%*4", 1)] // percentage of number
         [InlineData("125%10", 5)] // modulo
         [InlineData("2(25%*100+5^2)^3%13", 10)]
+        [InlineData("1*(50*51)/50*51", 2601)]
+        [InlineData("1(50*51)/50*51", 2601)]
+        [InlineData("10(5)/5", 10)]
+
         private void Should_Be_Correctly_Calculated(string source, double result)
         {
             // arrange

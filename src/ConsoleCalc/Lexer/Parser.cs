@@ -63,24 +63,6 @@ namespace ConsoleCalc
                             break;
                         }
 
-                    // to handle '2(1+3)'
-                    case Token.TokenType.LEFT_PAREN:
-                    case Token.TokenType.LEFT_BRACE:
-                        {
-                            // to handle raising to power
-                            left = this.ParenthesisAction(left, out currentToken, currentToken.Type);
-                            currentToken = this.tokenStream.Get();
-                            break;
-                        }
-
-                    // to handle '(1+3)2'
-                    case Token.TokenType.NUMBER:
-                        {
-                            left *= currentToken.Value;
-                            currentToken = this.tokenStream.Get();
-                            break;
-                        }
-
                     case Token.TokenType.PERCENT:
                         {
                             left = this.PercentAction(left);
@@ -109,6 +91,24 @@ namespace ConsoleCalc
             {
                 switch (currentToken.Type)
                 {
+                    // to handle '2(1+3)'
+                    case Token.TokenType.LEFT_PAREN:
+                    case Token.TokenType.LEFT_BRACE:
+                        {
+                            // to handle raising to power
+                            left = this.ParenthesisAction(left, out currentToken, currentToken.Type);
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
+
+                    // to handle '(1+3)2'
+                    case Token.TokenType.NUMBER:
+                        {
+                            left *= currentToken.Value;
+                            currentToken = this.tokenStream.Get();
+                            break;
+                        }
+
                     case Token.TokenType.CARET:
                         {
                             left = Math.Pow(left, this.Primary());
