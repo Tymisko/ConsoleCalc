@@ -5,13 +5,7 @@ Project has reached final stage. Suspended until I learn how to create C# applic
 
 ConsoleCalc is a C# console application that is doing math calculations.
 
-## Installation
-[Download](https://github.com/Tymisko/ConsoleCalc/releases) ConsoleCalc_x_x.zip
-- Extract it
-- Install or run just *ConsoleCalc.exe*
-
-## How To Use
-Enter math operation and press enter.
+## Supported operations
 
 Supported actions:
 - Addition '+'
