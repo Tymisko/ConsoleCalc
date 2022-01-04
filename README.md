@@ -6,8 +6,6 @@ Project has reached final stage. Suspended until I learn how to create C# applic
 ConsoleCalc is a C# console application that is doing math calculations.
 
 ## Supported operations
-
-Supported actions:
 - Addition '+'
 - Subtraction '-'
 - Multiplication '*'
